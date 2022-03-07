@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#1F384F</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="black">#000000</color>
+    <color name="background">#1F384F</color>
+    <color name="et_bg_tint">#F0F0F0</color>
+    <color name="white">#ffffff</color>
+    <color name="text_foreground_light">#cccccc</color>
+    <color name="text_foreground_mid">#838383</color>
+    <color name="text_foreground_dark">#505050</color>
+    <color name="follow_the_line_color">#2a47ab</color>
+    <color name="dark_blue">#002dff</color>
+    <color name="light_blue">#8599f4</color>
+    <color name="orange">#f38971</color>
+    <color name="green">#4a8d00</color>
+    <color name="red">#c30000</color>
+    <color name="primary_livewire">#f0f0e4</color>
+    <color name="primary_l">#f0f0e4</color>
+    <color name="navy">#1f384f</color>
+    <color name="yellow">#F5A623</color>
+    <color name="l_blue">#c7cdd3</color>
+    <color name="grey">#515151</color>
+    <color name="d_blue">#12283d</color>
+
+    <color name="dialogBackground">#60000000</color>
+</resources>

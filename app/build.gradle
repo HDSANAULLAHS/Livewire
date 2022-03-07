@@ -1,0 +1,339 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 31
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.livewire.app"
+        minSdkVersion 24
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.2"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'BASE_URL', "\"https://5e510330f2c0d300147c034c.mockapi.io/\""
+
+        buildConfigField "String", "HARLEY_ACCOUNT_API_URL", "\"https://login-us.harley-davidson.com/\""
+        buildConfigField "String", "GIGYA_DOMAIN_US", "\"us1.gigya.com\""
+        buildConfigField "String", "GIGYA_DOMAIN_EU", "\"eu1.gigya.com\""
+        buildConfigField "String", "GIGYA_DOMAIN_AU", "\"au1.gigya.com\""
+        buildConfigField "String", "GIGYA_DOMAIN_RU", "\"ru1.gigya.com\""
+        buildConfigField "String", "GIGYA_DOMAIN_CN", "\"cn1.gigya-api.cn\""
+
+    }
+
+    signingConfigs {
+        test {
+            // Used for local testing of a signed build. Not used for distribution.
+            keyAlias 'app'
+            keyPassword 'r1d3pl@nn3r'
+            storeFile file('etc/test.keystore')
+            storePassword 'app'
+        }
+        /*signed {
+            // Signing configuration is provided at runtime by CI server.
+            storeFile file(signingProps['storeFile'] ?: "none")
+            keyAlias signingProps['keyAlias']
+            keyPassword signingProps['keyPassword']
+            storePassword signingProps['storePassword']
+        }*/
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.test
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        /*signed {
+            minifyEnabled true
+            signingConfig signingConfigs.signed
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['release'] // needed after added "implementation project(':connectedamp')"
+        }*/
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    // work-runtime-ktx 2.1.0 and above now requires Java 8
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+
+        development {
+            dimension "environment"
+            versionCode 100
+            versionName "DEVELOP"
+            buildConfigField "String", "BUILD_TIME", "\"2000-01-01T12:00+0:00\""
+            buildConfigField "boolean", "ENABLE_TROUBLESHOOTING_UA", "true"
+            buildConfigField "boolean", "ENABLE_TBT_SIMULATION", "true"
+            buildConfigField "boolean", "ENABLE_LANE_GUIDANCE", "true"
+            buildConfigField "boolean", "ENABLE_ROUTE_PREFETCH", "false"
+            buildConfigField "boolean", "ENABLE_PHOENIX_DEBUGGING", "false"
+            buildConfigField "boolean", "ENABLE_WEATHER_MAP", "true"
+            buildConfigField "boolean", "ENABLE_MAP_VERSION_MGR", "true"
+            buildConfigField "boolean", "ENABLE_GPX_IMPORT_FOR_RIDE_RECORD", "true"
+            buildConfigField "boolean", "LAMOTTA_FEATURE", "true"
+            buildConfigField "String", "API_URL", "\"https://devmaps.harley-davidson.com/api/\""
+            buildConfigField "String", "WEB_URL", "\"https://devmaps.harley-davidson.com/\""
+            buildConfigField "String", "DATACENTER_API_URL", "\"https://mqrrad4025.execute-api.us-east-1.amazonaws.com/dev/\""
+            buildConfigField "String", "GIGYA_API_KEY_US", "\"3_AB_HdQuwg5UgMU9CeCjV0Y1T2xsNUQ_k-dGxXcKm82qh0_edD39qPOPscVxNUMMz\""
+            buildConfigField "String", "GIGYA_API_KEY_AU", "\"3_uFY5v3HtRDKYtcJhzIdqh2VQgpyJ5MtgXc1H_DcmVcyTZtQDFY_AY5vHTeH6AFwM\""
+            buildConfigField "String", "GIGYA_API_KEY_CN", "\"3_36Rv9SGI469F5MDQqOd8SYN5nFZv0pAJHPVKZ0BxupwU3ZPNRjnC0O4F2q19XtOb\""
+            buildConfigField "String", "GIGYA_API_KEY_EU", "\"3__LHZejAGh7-VYMbSYqEv0sB-1HgxvBIqVppULcNXCPvSuYZ2xcC9WWRgSPil0tjI\""
+            buildConfigField "String", "GIGYA_API_KEY_RU", "\"3_Mqollj0w-OTLC28Sr8WyjgcAH2B0543jDkn2ri5StQ_pbFp2Am4GsEevuDTExzJv\""
+            buildConfigField "String", "ADOBE_ANALYTICS_REPORT_SUITE_ID", "\"hdlwmobileappdev\""
+            buildConfigField "String", "ADOBE_ANALYTICS_CONFIG_FILE", "\"ADBMobileConfig(nonprod).json\""
+            buildConfigField "String", "ACCUWEATHER_API_URL", "\"https://apidev.accuweather.com/\""
+            buildConfigField "String", "ACCUWEATHER_API_KEY", "\"ed99810947ab4000830e11f19e2960a7\""
+            buildConfigField "String", "MERKLE_PROMOTION_URL","\"https://livewire.review.eprize.com/getoutandride/\""
+            buildConfigField "String", "LAUNCH_ENVIRONMENT_CODE", "\"1063865e0018/567fb3cf7d07/launch-d29981b209b3-staging\""
+            resValue "string", "HERE_APP_ID", "\"7CDdC8IZOTw2RyJgXBSp\""
+            resValue "string", "HERE_APP_TOKEN", "\"VqiwPQMUjqU371OPeQCRew\""
+            resValue "string", "HERE_REST_APP_ID", "\"bILcjbHFAgqqS5Z8FcoQ\""
+            resValue "string", "HERE_REST_APP_TOKEN", "\"RnE790Sb9FtR9cZ-ifZGWg\""
+            resValue "string", "HERE_LICENSE_KEY", "\"BbC/G0Wa8nY9IufQuoG5PLk1LxTfy79IOKQ8WRn0+jknzkNKiDlnwSHGTNVvQ3KJrdhEVedI90Dqc4pqzBjX7/JA5wX1bN1h2YJi+7HNkhW32qG6BN65xpr/GlJgiBF5C6xOV/OvGjosx13Y2tzv6XyEwn+dtbHIBK7xzp6H92NXttD5H1wpxVkYXWhYUZTS4boyH77Y2RTCBB9dyioQIvx3IzUxDLgN+Ge1QOq9RNbzLsZTpvqjNGm1warnI/Vvlh13QLhdjUMsdqKOTawTGUpkF+iNHQFZpKO9VGfrXxTgBZLSxmDeAlP1UQtwEHSJeeni2ploNravLNYPColdhL1anGnbWgPojODZzTTuQu16lT7MlUJYvI1DEjpSXGPkyecaUrYhTARyW5kXJPalnc0f2uiwuPrIGqOJcJ2AYi0Zq2MA+fzve5YdGDWpDXUjAAVRkqTt1A0QBBpy2LjekstoxlCoiAFnGXSkafPpckIWraFTRxF1oLb7c9LwhVZ6RAb5k77s40EnQSP190V8AXHXUHo24X9x7TDlcXNceA69wjds2UA1K/aMZCpV5vnk5T82V0Tfj8IheD6vn74Z17UU2EKBkkXy0GXr+NjDwlDMrVIcrKY8+n36qy57wVxVxWURYsm70Aj//jGI9NK3lmP2gvOX9h5v0aqsm/7+nOE=\""
+        }
+        acceptance {
+            dimension "environment"
+            versionName app_base_version + "." + buildTimeStamp()
+            buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+            buildConfigField "boolean", "ENABLE_TROUBLESHOOTING_UA", "true"
+            buildConfigField "boolean", "ENABLE_TBT_SIMULATION", "true"
+            buildConfigField "boolean", "ENABLE_LANE_GUIDANCE", "true"
+            buildConfigField "boolean", "ENABLE_ROUTE_PREFETCH", "false"
+            buildConfigField "boolean", "ENABLE_PHOENIX_DEBUGGING", "false"
+            buildConfigField "boolean", "ENABLE_WEATHER_MAP", "true"
+            buildConfigField "boolean", "ENABLE_MAP_VERSION_MGR", "true"
+            buildConfigField "boolean", "ENABLE_GPX_IMPORT_FOR_RIDE_RECORD", "true"
+            buildConfigField "boolean", "LAMOTTA_FEATURE", "true"
+            buildConfigField "String", "API_URL", "\"https://devmaps.harley-davidson.com/api/\""
+            buildConfigField "String", "WEB_URL", "\"https://devmaps.harley-davidson.com/\""
+            buildConfigField "String", "DATACENTER_API_URL", "\"https://mqrrad4025.execute-api.us-east-1.amazonaws.com/dev/\""
+            buildConfigField "String", "GIGYA_API_KEY_US", "\"3_5ZJ2pZ7PrD1iVoNVEF6qJ6zSU-bXn_cGjt7MM_aCtwsm2n0d_O8StIkh7iz-Pn6Y\""
+            buildConfigField "String", "GIGYA_API_KEY_AU", "\"3_T5cfCdbnFq37Cy31Pk1Sh8_GF2wdcoBHT7r1Jqg9-rsYLzH--LmFDRhfAeVFIDir\""
+            buildConfigField "String", "GIGYA_API_KEY_CN", "\"3_fyYp-kX4laqyJJ_qBO7tClHIqDgxlkzeleL1hRrCp89bxhxJyDB7U7a0Z4Qnr8Pw\""
+            buildConfigField "String", "GIGYA_API_KEY_EU", "\"3_FyZnFjgBYNFi61hwXld-TMD_sRn-dVF3WlxcLjgEFPv6brUQsqZomB1lczA3HA6o\""
+            buildConfigField "String", "GIGYA_API_KEY_RU", "\"3_Mqollj0w-OTLC28Sr8WyjgcAH2B0543jDkn2ri5StQ_pbFp2Am4GsEevuDTExzJv\""
+            buildConfigField "String", "ADOBE_ANALYTICS_REPORT_SUITE_ID", "\"hdlwmobileappdev\""
+            buildConfigField "String", "ADOBE_ANALYTICS_CONFIG_FILE", "\"ADBMobileConfig(nonprod).json\""
+            buildConfigField "String", "ACCUWEATHER_API_URL", "\"https://apidev.accuweather.com/\""
+            buildConfigField "String", "ACCUWEATHER_API_KEY", "\"ed99810947ab4000830e11f19e2960a7\""
+            buildConfigField "String", "MERKLE_PROMOTION_URL","\"https://livewire.review.eprize.com/getoutandride/\""
+            buildConfigField "String", "LAUNCH_ENVIRONMENT_CODE", "\"1063865e0018/567fb3cf7d07/launch-d29981b209b3-staging\""
+            resValue "string", "HERE_APP_ID", "\"rqrJuuktFaLRCATZTa16\""
+            resValue "string", "HERE_APP_TOKEN", "\"-anazhSFfAEcBEdoQItL0A\""
+            resValue "string", "HERE_REST_APP_ID", "\"kU13SRqFPxlY2KEqzjcG\""
+            resValue "string", "HERE_REST_APP_TOKEN", "\"nMASN3w-GQ-ofigmwhpz0g\""
+            resValue "string", "HERE_LICENSE_KEY", "\"KjQMRRfk9ns1pH0QU2vbePmbqcbL8C6zN0IHb3gdcyfZ3aRJmwG3KgVJyfOh+at12yRFT7sAGaQG2iUW0lf1EyuQQReISWtOIPHoW0zlRmmRk/rFXvUCImuVlfulIuNdJUoMNdlNbZSe1dRuqc4RgUv93zyhi+uVvWekW9sKm9nVV3BAm5PGErv0lzLLtnhNXfc6p28++IqHYMqVg+2NR1jrfu4XWp0ucFdoO+53KvP5j0vHvy+0gI8Dqxx8+5oI/ylvCNx+KYySyEJKi38enq/D8/WipB69q/rLm6FKltVrwAQBqKzAOSUzL8E7fR8beQyGjdSOLgxU5MwiHxvBg2IjCnvh95g5bDXkKuE27yEFWwjBI0wJd6tYDW6rOVnvaI5ysZqDyPpm1mqzH4moSWcoT6vrbcjiF1cLhpAuwqjKdCUkI9fzgQHr/uq0qpD+qoOSJgHnBYBvnulQivQhVLovVbuYJRVWAt8MmkSvW1JnkIX1vXKTChCKfXn3p6z9uCmHVehZ4p0N1ZOOQSEPYhy5aMpvIqYuNtX5KMu/Ca6Guh0nKZeJhAz2UTqmICxaMV8ETcbN9JE5MX77HJuORvMh2/NjnhpEAl0wtGyEisWcfu6ixzjI7s5o8WTDyVRvdsAUSFkVuGalIj1G2awvgB8tUbw2ym2TRMu9SoHYDoo=\""
+        }
+        staging {
+            dimension "environment"
+            versionName app_base_version + "." + buildTimeStamp()
+            buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+            buildConfigField "boolean", "ENABLE_TROUBLESHOOTING_UA", "false"
+            buildConfigField "boolean", "ENABLE_TBT_SIMULATION", "true"
+            buildConfigField "boolean", "ENABLE_LANE_GUIDANCE", "true"
+            buildConfigField "boolean", "ENABLE_ROUTE_PREFETCH", "false"
+            buildConfigField "boolean", "ENABLE_PHOENIX_DEBUGGING", "false"
+            buildConfigField "boolean", "ENABLE_WEATHER_MAP", "true"
+            buildConfigField "boolean", "ENABLE_MAP_VERSION_MGR", "false"
+            buildConfigField "boolean", "ENABLE_GPX_IMPORT_FOR_RIDE_RECORD", "true"
+            buildConfigField "boolean", "LAMOTTA_FEATURE", "true"
+            buildConfigField "String", "API_URL", "\"https://qamaps.harley-davidson.com/api/\""
+            buildConfigField "String", "WEB_URL", "\"https://qamaps.harley-davidson.com/\""
+            buildConfigField "String", "DATACENTER_API_URL", "\"https://voq4xyhqz3.execute-api.us-east-1.amazonaws.com/qa/\""
+            buildConfigField "String", "GIGYA_API_KEY_US", "\"3_0-_8oa8_r1HtE6Y9-DxwTqSAkhLyoeZ5f3e8Lb4ozgQGfiCGfrfNELiC9DFGY_pO\""
+            buildConfigField "String", "GIGYA_API_KEY_AU", "\"3_G0kgk2-ZAfbj5doCL5Djnar1ViddSdtjXn8crseMWHcVqBjaK4iGDvD6pDGoPkMW\""
+            buildConfigField "String", "GIGYA_API_KEY_CN", "\"3_Ix25Z8z0IIMUQhX5u7mrxmTNOWwgFj3912mxslBNrTxB9SaCKuo4OkwsLPOVJQbn\""
+            buildConfigField "String", "GIGYA_API_KEY_EU", "\"3_rFK25aMyfZy5x2e-0jZvO_TSg2Sk6hTM1mXQERnsh-ltzvMTVp38K9nXV8PeU-4s\""
+            buildConfigField "String", "GIGYA_API_KEY_RU", "\"3_fZItLGmFHJFs6okBhbrI1PfOli0urmk1KNX73j6hYZ2J9v7HFtmmzT-LYbm4oZtn\""
+            buildConfigField "String", "ADOBE_ANALYTICS_REPORT_SUITE_ID", "\"hdlwmobileappdev\""
+            buildConfigField "String", "ADOBE_ANALYTICS_CONFIG_FILE", "\"ADBMobileConfig(nonprod).json\""
+            buildConfigField "String", "ACCUWEATHER_API_URL", "\"https://apidev.accuweather.com/\""
+            buildConfigField "String", "ACCUWEATHER_API_KEY", "\"ed99810947ab4000830e11f19e2960a7\""
+            buildConfigField "String", "MERKLE_PROMOTION_URL","\"https://livewire.review.eprize.com/getoutandride/\""
+            buildConfigField "String", "LAUNCH_ENVIRONMENT_CODE", "\"1063865e0018/567fb3cf7d07/launch-d29981b209b3-staging\""
+            resValue "string", "HERE_APP_ID", "\"rqrJuuktFaLRCATZTa16\""
+            resValue "string", "HERE_APP_TOKEN", "\"-anazhSFfAEcBEdoQItL0A\""
+            resValue "string", "HERE_REST_APP_ID", "\"kU13SRqFPxlY2KEqzjcG\""
+            resValue "string", "HERE_REST_APP_TOKEN", "\"nMASN3w-GQ-ofigmwhpz0g\""
+            resValue "string", "HERE_LICENSE_KEY", "\"KjQMRRfk9ns1pH0QU2vbePmbqcbL8C6zN0IHb3gdcyfZ3aRJmwG3KgVJyfOh+at12yRFT7sAGaQG2iUW0lf1EyuQQReISWtOIPHoW0zlRmmRk/rFXvUCImuVlfulIuNdJUoMNdlNbZSe1dRuqc4RgUv93zyhi+uVvWekW9sKm9nVV3BAm5PGErv0lzLLtnhNXfc6p28++IqHYMqVg+2NR1jrfu4XWp0ucFdoO+53KvP5j0vHvy+0gI8Dqxx8+5oI/ylvCNx+KYySyEJKi38enq/D8/WipB69q/rLm6FKltVrwAQBqKzAOSUzL8E7fR8beQyGjdSOLgxU5MwiHxvBg2IjCnvh95g5bDXkKuE27yEFWwjBI0wJd6tYDW6rOVnvaI5ysZqDyPpm1mqzH4moSWcoT6vrbcjiF1cLhpAuwqjKdCUkI9fzgQHr/uq0qpD+qoOSJgHnBYBvnulQivQhVLovVbuYJRVWAt8MmkSvW1JnkIX1vXKTChCKfXn3p6z9uCmHVehZ4p0N1ZOOQSEPYhy5aMpvIqYuNtX5KMu/Ca6Guh0nKZeJhAz2UTqmICxaMV8ETcbN9JE5MX77HJuORvMh2/NjnhpEAl0wtGyEisWcfu6ixzjI7s5o8WTDyVRvdsAUSFkVuGalIj1G2awvgB8tUbw2ym2TRMu9SoHYDoo=\""
+        }
+        production {
+            dimension "environment"
+            versionName app_base_version + "." + buildTimeStamp()
+            buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+            buildConfigField "boolean", "ENABLE_TROUBLESHOOTING_UA", "false"
+            buildConfigField "boolean", "ENABLE_TBT_SIMULATION", "false"
+            buildConfigField "boolean", "ENABLE_LANE_GUIDANCE", "false"
+            buildConfigField "boolean", "ENABLE_ROUTE_PREFETCH", "false"
+            buildConfigField "boolean", "ENABLE_PHOENIX_DEBUGGING", "false"
+            buildConfigField "boolean", "ENABLE_WEATHER_MAP", "false"
+            buildConfigField "boolean", "ENABLE_MAP_VERSION_MGR", "false"
+            buildConfigField "boolean", "ENABLE_GPX_IMPORT_FOR_RIDE_RECORD", "false"
+            buildConfigField "boolean", "LAMOTTA_FEATURE", "true"
+            buildConfigField "String", "API_URL", "\"https://maps.harley-davidson.com/api/\""
+            buildConfigField "String", "WEB_URL", "\"https://maps.harley-davidson.com/\""
+            buildConfigField "String", "DATACENTER_API_URL", "\"https://psvlkburnf.execute-api.us-east-1.amazonaws.com/prod/\""
+            buildConfigField "String", "GIGYA_API_KEY_US", "\"3_pqkdWzzoKeeXMDd1_LzwwEG-6WH-Nxpb6FVeXAoLKZ414BkHcHRPeAESrSjebnQE\""
+            buildConfigField "String", "GIGYA_A" + "PI_KEY_AU", "\"3_Yth355IzvU3o7PgVVDspZ0nr1IaODj0UHUtdeFHpdnJXU3dCqaDTkGXs2N2ahc1w\""
+            buildConfigField "String", "GIGYA_API_KEY_CN", "\"3_shGgWkiN_bpVBVjZfBYxm7hMz7Y8Vfk5BSv2Qd07eydKL2HxL6T0aPNLqpVvCwFS\""
+            buildConfigField "String", "GIGYA_API_KEY_EU", "\"3_wP7wBYhp1FKlaCYUaJqdSR281vsm0_8tL1lxNxr6596m-HIepTC7R88YrAhWokIo\""
+            buildConfigField "String", "GIGYA_API_KEY_RU", "\"3_4SOvtzjwAshDm57P-aIk0zidX6O94OyrGv_TPmcUZxHp0Gj7TzQkZ9HwBhnkl_rT\""
+            buildConfigField "String", "ADOBE_ANALYTICS_REPORT_SUITE_ID", "\"hdlwmobileappprod\""
+            buildConfigField "String", "ADOBE_ANALYTICS_CONFIG_FILE", "\"ADBMobileConfig.json\""
+            buildConfigField "String", "DARK_SKY_API_KEY", "\"f2de2f73539a9d7321b36a2c8efc99c7\""
+            buildConfigField "String", "ACCUWEATHER_API_URL", "\"https://api.accuweather.com/\""
+            buildConfigField "String", "ACCUWEATHER_API_KEY", "\"ed99810947ab4000830e11f19e2960a7\""
+            buildConfigField "String", "MERKLE_PROMOTION_URL","\"https://livewire.promo.eprize.com/getoutandride/\""
+            buildConfigField "String", "LAUNCH_ENVIRONMENT_CODE", "\"1063865e0018/567fb3cf7d07/launch-539a0e534abc\""
+            resValue "string", "HERE_APP_ID", "\"z9deHdWdmQEFSGGmzztY\""
+            resValue "string", "HERE_APP_TOKEN", "\"4dKZZ8dc8AulLNKX4Tjn5g\""
+            resValue "string", "HERE_REST_APP_ID", "\"6UtDZ0WYqhbP8ETye92q\""
+            resValue "string", "HERE_REST_APP_TOKEN", "\"tKM9m2fodIsWFhCBZnc9yA\""
+            resValue "string", "HERE_LICENSE_KEY", "\"kE8/WEEu99vi2wVuQfHo3mcIFqAxqct9xojnHaInjYHwn6KU5Wrc/Kw0NlRi7uE1Q0dApKZgPo67HOnc26BYVY2J+5uZGEN6lzYJx6bOskMubJVcYj7JZZhgtS1a8k49kCDQ08GrhM38a7UMjcThMBqvolXxeWYeGycz2TlbLwBKpp7DoBDIe4HSeV7TTfGoHbDqN4nggoQr7mcYbogzmRLRC9gEpDHdojsdthZNFS3w32MWuHydM92ButdMX31TUswbQVs743aHSPuPK+ZMJtmP5gb2TnKcuQt6ZF6201v2IaIJT/x7hCVp3+pxtHFeEZ3Z9yZ8AXyiJ+EhgEOVKeDKOZ0T98wCFxyVyiiOjMJEcqYCoBQ0po4TtKvto75ZgA2FpEriUUuOijMc3qXMf87yRO0SDJMH9bbuPunfCdEBs1BDKlwXEbqH6h2udoDh1YeKEYgvDLCMKAc++mFNOPJhrKBeJAcjTFclWkyDcyOf5ZKQwzXJo4+F/1H+toxXzuv+oUZQDJxc4cSFYzjB5ZcHm1Mi/KZjJyv88pFDM42hRgx/N5x5xQDwTiN0F112dzULNrVl1WuMp0b3LTrVO+uZvzJRGtPN69d8+rH9Mi8ruiwPs7bXNmJkCzLDypRzbIAWBXj7Pk8k9ur3Zfm99ND4s7fM587B5/exMQ/rWf0=\""
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a', 'x86'
+            universalApk false
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    allprojects {
+        configurations {
+            all {
+                resolutionStrategy {
+                    force "org.ow2.asm:asm:7.0"
+                }
+            }
+        }
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        if (output.getFilter(com.android.build.OutputFile.ABI) == "arm64-v8a") {
+            // 64 bit version code is offset by a large number to allow uploading same
+            // build APKs to play store
+            output.versionCodeOverride = 100000 + variant.versionCode
+        }
+    }
+}
+
+def static formatTime(format) {
+    def df = new java.text.SimpleDateFormat(format)
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
+
+def static buildTime() {
+    return formatTime("yyyy-MM-dd'T'HH:mmZ")
+}
+
+def static buildTimeStamp() {
+    return formatTime("yyyyMMdd")
+}
+
+tasks.withType(Test) {
+    testLogging {
+        showStandardStreams = true
+        outputs.upToDateWhen { false }
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+}
+
+
+dependencies {
+
+    //gigya aar file
+    implementation files('libs/gigya-android-sdk-4.2.2.aar')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation files('libs\\viot-mobile-api-0.0.1.jar')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Added Dependencies
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
+    //koin
+    implementation "org.koin:koin-android-viewmodel:2.1.6"
+    implementation "org.koin:koin-android:2.1.6"
+    // Koin Core features
+    //implementation "io.insert-koin:koin-core:3.1.5"
+// Koin Test features
+    //testImplementation "io.insert-koin:koin-test:3.1.5"
+
+    // Networking
+    implementation "com.squareup.retrofit2:converter-moshi:2.6.2"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+
+    //Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6"
+
+    //joda
+    implementation 'net.danlew:android.joda:2.10.2'
+    implementation 'com.auth0.android:jwtdecode:1.1.1'
+    implementation 'com.airbnb.android:lottie:3.7.0'
+
+    implementation 'com.github.d-max:spots-dialog:0.4@aar'
+    //google play service
+    implementation 'com.google.android.gms:play-services-base:18.0.1'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+
+}

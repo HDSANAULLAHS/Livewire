@@ -1,0 +1,26 @@
+<resources>
+        <declare-styleable name="EditAddressView">
+        <attr name="endMode" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SetPasswordView">
+        <attr name="passwordHint" format="string" />
+        <attr name="isEditPassword" format="boolean" />
+        <attr name="confirmHint" format="string" />
+    </declare-styleable>
+    <declare-styleable name="DurationView">
+        <attr name="durationConvergenceMode" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ArrivalView">
+        <attr name="arrivalConvergenceMode" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="DistanceView">
+        <attr name="distanceConvergenceMode" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="BubbleSwitchView">
+        <attr name="offDrawable" format="reference" />
+        <attr name="onDrawable" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="SquareTextView">
+        <attr name="text" format="string" />
+    </declare-styleable>
+</resources>
