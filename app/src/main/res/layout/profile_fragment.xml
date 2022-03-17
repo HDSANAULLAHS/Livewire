@@ -7,16 +7,344 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".authentication.activity.ProfileActivity">
+    tools:context=".profile.ProfileActivity">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ProfileFragment"
+        <RelativeLayout
+            android:layout_marginStart="@dimen/size_24"
+            android:id="@+id/rl_top"
+            android:layout_marginTop="@dimen/size_40"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_backarrow"
+                app:tint="@color/white"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/edit_profile_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/aeonik_bold"
+                android:text="@string/edit_profile"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/back_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/rl_top">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profileViewRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp">
+
+            <View
+                android:id="@+id/background_photo"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:background="#1f384f"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="96dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_profile_pic_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/edit_pic"
+                app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
+                app:layout_constraintEnd_toEndOf="@id/avatarImageView"
+                app:layout_constraintHorizontal_bias="0.963"
+                app:layout_constraintStart_toStartOf="@id/avatarImageView"
+                app:layout_constraintTop_toTopOf="@id/avatarImageView"
+                app:layout_constraintVertical_bias="0.155" />
+
+            <TextView
+                android:id="@+id/removeProfilePhotoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/roboto_mono_regular"
+                android:letterSpacing=".19"
+                android:text="Sonu Shaikh"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatarImageView" />
+
+
+            <TextView
+                android:id="@+id/emailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_24"
+                android:layout_marginTop="32dp"
+                android:letterSpacing="0.19"
+                android:text="Email"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/removeProfilePhotoButton" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/aeonik_regular"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/emailTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/emailTitle"
+                tools:text="willie.dustice@gmail.com" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:paddingBottom="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emailTitle">
+
+                <TextView
+                    android:id="@+id/editEmailButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:text="Edit Email"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/passwordTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_24"
+                    android:layout_marginTop="24dp"
+                    android:letterSpacing="0.19"
+                    android:text="Password"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/editPasswordButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:layout_marginTop="16dp"
+                    android:text="Edit Password"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/firstNameTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:layout_marginTop="32dp"
+                    android:letterSpacing="0.19"
+                    android:text="First Name Title"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/firstNameField"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/roboto_mono_regular"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="LabelFor" />
+
+
+                <TextView
+                    android:id="@+id/middleNameTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    android:letterSpacing=".19"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/middleNameField"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/roboto_mono_regular"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:id="@+id/lastNameTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    android:letterSpacing=".19"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:id="@+id/lastNameField"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/roboto_mono_regular"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:id="@+id/birthdayTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    android:letterSpacing=".19"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:id="@+id/birthdayField"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/roboto_mono_regular"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:id="@+id/edit_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    android:layout_marginBottom="16dp"
+                    android:letterSpacing=".19"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_address_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aeonik_bold"
+                    android:letterSpacing=".19"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/aeonik_regular"
+                    android:letterSpacing=".19"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:id="@+id/btn_edit_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/agreement_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:layout_marginTop="42dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/emailOptIn"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp" />
+
+                    <TextView
+                        android:id="@+id/tv_emailOptIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/aeonik_regular"
+                        android:includeFontPadding="false"
+                        android:paddingBottom="32dp"
+                        android:textColor="@color/black"
+                        android:textColorLink="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_marginHorizontal="@dimen/size_24"
+                    android:id="@+id/saveButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
