@@ -1,6 +1,7 @@
-package com.livewire.audax.profile.ui.edit
+package com.livewire.app.profile.ui.edit
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,38 +10,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import com.livewire.audax.App
 import com.livewire.audax.R
-import com.livewire.audax.authentication.ui.login.LoginFragment
-import com.livewire.audax.locale.LinksLocalizer
+import com.livewire.audax.profile.ui.ChangePasswordActivity
 import com.livewire.audax.utils.*
-import kotlinx.android.synthetic.main.profile_fragment.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.lang.StringBuilder
 import com.theartofdev.edmodo.cropper.CropImage
+import kotlinx.android.synthetic.main.edit_profile_fragment.*
+import kotlinx.android.synthetic.main.profile_fragment.avatarImageView
+import kotlinx.android.synthetic.main.profile_fragment.back_button
 
 class EditProfileFragment : Fragment() {
     private val viewModel: EditProfileViewModel by sharedViewModel()
     private val imageLoader: ImageLoader by inject()
-    /*private val analytics: AnalyticsManager by inject()*/
-    private val links: LinksLocalizer by inject()
-    private val preferences: App by inject()
+    private var progressDialog = CustomDialog()
 
     companion object {
-        fun newInstance() = LoginFragment()
+        fun newInstance() = EditProfileFragment()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.userViewModel.profile.observe(this, {
+        viewModel.userViewModel.profile.observe(this) {
             loadUserProfile()
-        })
-
-        /* if (savedInstanceState == null) {
-             analytics.track(AnalyticsEvent.VIEW_EDIT_PROFILE_PAGE)
-         }*/
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -50,27 +43,6 @@ class EditProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editEmailButton.isEnabled = viewModel.canEditEmail
-
-        toggleRemovePictureButton()
-
-        avatarImageView.setOnClickListener {
-            selectProfileImage()
-        }
-
-        camera.setOnClickListener {
-            selectProfileImage()
-        }
-
-        removeProfilePhotoButton.setOnClickListener {
-            removeProfileImage()
-        }
-
-
-        editEmailButton.setOnClickListener {
-            editEmail()
-        }
-
         editPasswordButton.setOnClickListener {
             editPassword()
         }
@@ -79,25 +51,12 @@ class EditProfileFragment : Fragment() {
             saveAndExit()
         }
 
-        btn_edit_address.setOnClickListener {
-            editAddress()
-        }
-
         back_button.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        tv_emailOptIn.linkStarredText(
-            mapOf(
-                //getString(R.string.opt_in_link_privacy) to links.privacyPolicyLink,
-            )
-        ) {
-            activity?.openExternalBrowser(it)
-        }
-
         loadUserProfile()
         firstNameField.watchText(this::textFieldChanged)
-        middleNameField.watchText(this::textFieldChanged)
         lastNameField.watchText(this::textFieldChanged)
     }
 
@@ -118,41 +77,33 @@ class EditProfileFragment : Fragment() {
 
     private fun saveAndExit() {
         activity?.hideKeyboard()
-
         viewModel.first = firstNameField.text.toString().trim()
-        viewModel.middle = middleNameField.text.toString().trim()
         viewModel.last = lastNameField.text.toString().trim()
-        viewModel.emailOptIn = emailOptIn.isChecked
-        viewModel.updateProfile(this::updateProfileSuccess, this::updateProfileFailed)
+        if (firstNameField.text.toString() == ""){
+            firstNameField.error = "First name required"
+        }else{
+            if (lastNameField.text.toString() == ""){
+                lastNameField.error = "Last name required"
+            }else{
+                progressDialog.show(requireContext())
+                viewModel.updateProfile(this::updateProfileSuccess, this::updateProfileFailed)
+            }
+        }
+
     }
 
     private fun updateProfileSuccess() {
-        //showConfirmation(R.string.changes_saved, toast = true)
-        Toast.makeText(requireContext(), "Changes saved", Toast.LENGTH_SHORT).show()
+        activity?.onBackPressed()
+        progressDialog.dismiss(requireContext())
     }
 
     private fun updateProfileFailed(message: Int) {
         //showError(message)
-    }
-
-
-    private fun removeProfileImage() {
-
-        viewModel.removeProfilePicture(this::profilePictureRemoved, this::profilePictureFailure)
+        progressDialog.dismiss(requireContext())
     }
 
     private fun uploadProfileImage(uri: Uri) {
         viewModel.uploadProfilePicture(uri, this::profilePictureUploaded, this::profilePictureFailure)
-    }
-
-    private fun profilePictureRemoved() {
-        if (!isAdded) {
-            return
-        }
-
-        toggleRemovePictureButton()
-        avatarImageView.setImageResource(R.drawable.ic_avatar_placeholder)
-        camera.setImageResource(R.drawable.edit_pic)
     }
 
     private fun profilePictureUploaded(url: String) {
@@ -161,7 +112,7 @@ class EditProfileFragment : Fragment() {
         }
 
         imageLoader.loadImageViewWithRoundedBitmap(url, avatarImageView)
-        toggleRemovePictureButton()
+        //toggleRemovePictureButton()
         //analytics.track(AnalyticsEvent.UPLOAD_PHOTO_ACTION)
     }
 
@@ -175,27 +126,15 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun selectProfileImage() {
-        CropImage.activity().setAspectRatio(1, 1)
-            .setFixAspectRatio(true)
-            .setRequestedSize(1024, 1024)
-            .start(requireContext(), this)
-    }
-
     private fun loadUserProfile() {
         val user = viewModel.userViewModel.profile.value ?: return
-
         if (user.photoURL.isNotEmpty()) {
             imageLoader.loadImageViewWithRoundedBitmap(user.photoURL, avatarImageView)
         }
 
-        val stateArray = resources.getStringArray(R.array.state_array)
         email.text = user.email
         firstNameField.setText(user.firstName)
-        middleNameField.setText(user.middleName)
         lastNameField.setText(user.lastName)
-        emailOptIn.isChecked = user.emailOptIn
-
         if (user.addressLine1.isNotBlank()) {
             val builder = StringBuilder()
 
@@ -204,7 +143,7 @@ class EditProfileFragment : Fragment() {
                 append(" ")
                 append(user.lastName)
                 append("\n")
-                append(user.addressLine1)
+                /*append(user.addressLine1)
                 append("\n")
 
                 if (user.addressLine2.trim().isNotBlank()) {
@@ -226,47 +165,18 @@ class EditProfileFragment : Fragment() {
 
                 append(user.addressCountry)
                 append("\n")
+                if (user.mobilePhoneNumber.isNotBlank()) {
+                    append(user.mobilePhoneNumber)
+                }*/
             }
 
-            if (builder.toString().isNullOrBlank().not()) {
-                tv_address.text = builder.toString()
-                tv_address.visible = true
-                tv_address_name.visible = true
-                btn_edit_address.text = "Edit Address"
-            }
         }
-
         saveButton.isEnabled = false
-    }
 
-
-
-    private fun toggleRemovePictureButton() {
-        if (viewModel.userViewModel.profile.value?.photoURL.isNullOrEmpty()) {
-            removeProfilePhotoButton.visibility = View.GONE
-        } else {
-            removeProfilePhotoButton.visibility = View.VISIBLE
-        }
-    }
-
-    private fun editEmail() {
-        //analytics.track(AnalyticsEvent.ACTION_EDIT_EMAIL)
-
-        /*if (preferences.haveRecentlyVerifiedIdentity) {
-            loadCurrentTab(EditEmailFragment())
-        } else {
-            loadCurrentTab(VerifyIdentityForEmailFragment())
-        }*/
-    }
-
-    private fun editAddress() {
-        //loadCurrentTab(EditAddressFragment())
     }
 
     private fun editPassword() {
-        //analytics.track(AnalyticsEvent.ACTION_EDIT_PASSWORD)
-
-        //loadCurrentTab(EditPasswordFragment())
+        startActivity(Intent(context, ChangePasswordActivity::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

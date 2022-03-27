@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.livewire.audax.R
 import com.livewire.audax.authentication.AccountDataSource
 import com.livewire.audax.authentication.AccountFieldValidator
+import com.livewire.audax.utils.NetworkHelper
 
 class LoginViewModel (private val dataSource:AccountDataSource,
                       private val validator: AccountFieldValidator) : ViewModel() {

@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.livewire.audax.R
-import com.livewire.audax.authentication.ResetPasswordActivity
+import com.livewire.audax.authentication.activity.ResetPasswordActivity
 import com.livewire.audax.authentication.activity.SignupActivity
-import com.livewire.audax.dashboard.DashboardActivity
+import com.livewire.audax.homescreen.HomeScreenActivity
 import com.livewire.audax.profile.ProfileActivity
 import com.livewire.audax.store.SharedPreference
 import com.livewire.audax.utils.CustomDialog
@@ -80,7 +80,8 @@ class LoginFragment : Fragment() {
                 // Do nothing; handled by authentication events, same as CreateAccountFragment
                 is LoginViewModel.LoginResult.Success -> {
                     activity?.let{
-                        val intent = Intent (it, ProfileActivity::class.java)
+                        val intent = Intent (it, HomeScreenActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                         it.startActivity(intent)
                         val sharedPreference =SharedPreference(requireContext())
                         sharedPreference.save("Email", email)
@@ -90,7 +91,7 @@ class LoginFragment : Fragment() {
                     activity?.finish()
                 }
                 is LoginViewModel.LoginResult.Failure -> loginFailed(result.message)
-                is LoginViewModel.LoginResult.ChangePasswordRequired -> changePassword(result.regToken)
+                //is LoginViewModel.LoginResult.ChangePasswordRequired -> changePassword(result.regToken)
             }
         }
     }
@@ -119,10 +120,10 @@ class LoginFragment : Fragment() {
             .create()
             .show()
     }
-    private fun changePassword(regToken: String) {
+    /*private fun changePassword(regToken: String) {
         activity?.let{
-            val intent = Intent (it, DashboardActivity::class.java)
+            val intent = Intent (it, HomeScreenActivity::class.java)
             it.startActivity(intent)
         }
-    }
+    }*/
 }

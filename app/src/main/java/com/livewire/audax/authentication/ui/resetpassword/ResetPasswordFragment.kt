@@ -88,7 +88,6 @@ class ResetPasswordFragment : Fragment() {
         progressDialog.dismiss(this.requireContext())
         txt_error_message?.setText(message)
         txt_error_message?.visible = true
-        //editEmail?.setValidationError(showLine = false)
         btn_reset_password?.visible = showCreateOption
         btn_reset_password.visibility = View.VISIBLE
     }

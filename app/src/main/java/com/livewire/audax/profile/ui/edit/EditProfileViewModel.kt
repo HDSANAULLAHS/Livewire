@@ -1,4 +1,4 @@
-package com.livewire.audax.profile.ui.edit
+package com.livewire.app.profile.ui.edit
 
 import android.net.Uri
 import android.util.Log
@@ -22,18 +22,7 @@ class EditProfileViewModel (val dataSource: AccountDataSource,
     }
 
     var first = ""
-    var middle = ""
     var last = ""
-    var addressName = ""
-    var addressOne = ""
-    var addressTwo = ""
-    var zipCode = ""
-    var city = ""
-    var state = ""
-    var country = ""
-    var emailOptIn = false
-    var mobilePhoneNumber = ""
-    val birthDate = MutableLiveData<Calendar>()
 
     private val user: User?
         get() = userViewModel.profile.value
@@ -42,15 +31,6 @@ class EditProfileViewModel (val dataSource: AccountDataSource,
         user?.let {
             first = it.firstName
             last = it.lastName
-            middle = it.middleName
-            addressOne = it.addressLine1
-            addressTwo = it.addressLine2
-            zipCode = it.addressZip
-            city = it.addressCity
-            state = it.addressState
-            country = it.addressCountry
-            emailOptIn = it.emailOptIn
-            mobilePhoneNumber = it.mobilePhoneNumber
         }
     }
 
@@ -126,29 +106,11 @@ class EditProfileViewModel (val dataSource: AccountDataSource,
     }
 */
     fun updateProfile(success: () -> Unit, error: (Int) -> Unit) {
-        /*validate().ifNonZero {
-            error(it)
-            return
-        }*/
 
         val user = userViewModel.profile.value ?: return
-        val birthDate = this.birthDate.value ?: return
 
         user.firstName = first
-        user.middleName = middle
-        user.addressLine1 = addressOne
-        user.addressLine2 = addressTwo
-        user.addressCity = city
         user.lastName = last
-        user.addressZip = zipCode
-        user.emailOptIn = emailOptIn
-        user.addressState = state
-        user.addressCountry = "US"
-        user.mobilePhoneNumber = mobilePhoneNumber
-
-        user.birthDay = birthDate.get(Calendar.DAY_OF_MONTH)
-        user.birthMonth = birthDate.get(Calendar.MONTH) + 1
-        user.birthYear = birthDate.get(Calendar.YEAR)
 
         dataSource.updateProfile(user, {
             Log.i(TAG, "User Profile Update Success")
@@ -161,31 +123,18 @@ class EditProfileViewModel (val dataSource: AccountDataSource,
         })
     }
 
-    fun updateAddress(success: () -> Unit, error: (Int) -> Unit) {
+   /* fun updateAddress(success: () -> Unit, error: (Int) -> Unit) {
 
-        /*validateAddress().ifNonZero {
+        *//*validateAddress().ifNonZero {
             error(it)
             return
-        }*/
+        }*//*
 
         val user = userViewModel.profile.value!!
-        val birthDate = this.birthDate.value!!
 
         user.firstName = first
-        user.middleName = middle
-        user.addressLine1 = addressOne
-        user.addressLine2 = addressTwo
-        user.addressCity = city
         user.lastName = last
-        user.addressZip = zipCode
-        user.emailOptIn = emailOptIn
-        user.addressState = state
-        user.addressCountry = "US"
-        user.mobilePhoneNumber = mobilePhoneNumber
 
-        user.birthDay = birthDate.get(Calendar.DAY_OF_MONTH)
-        user.birthMonth = birthDate.get(Calendar.MONTH) + 1
-        user.birthYear = birthDate.get(Calendar.YEAR)
 
         dataSource.updateProfile(user, {
             success()
@@ -193,6 +142,6 @@ class EditProfileViewModel (val dataSource: AccountDataSource,
             error(it)
         })
     }
-
+*/
 
 }

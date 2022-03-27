@@ -2,8 +2,8 @@ package com.livewire.audax.profile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.livewire.app.profile.ui.edit.EditProfileFragment
 import com.livewire.audax.R
-import com.livewire.audax.profile.ui.edit.EditProfileFragment
 
 class EditProfileActivity : AppCompatActivity() {
 

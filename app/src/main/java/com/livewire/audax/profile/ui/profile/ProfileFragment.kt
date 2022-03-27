@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import com.livewire.audax.R
 import com.livewire.audax.authentication.UserViewModel
 import com.livewire.audax.authentication.activity.LoginActivity
+import com.livewire.audax.homescreen.HomeScreenActivity
 import com.livewire.audax.profile.EditProfileActivity
 import com.livewire.audax.store.SharedPreference
 import com.livewire.audax.utils.CustomDialog
 import com.livewire.audax.utils.ImageLoader
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.main_fragment.avatarImageView
+import kotlinx.android.synthetic.main.main_fragment.ownersName
+import kotlinx.android.synthetic.main.profile_fragment.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -26,19 +29,22 @@ class ProfileFragment : Fragment() {
     companion object {
         fun newInstance() = ProfileFragment()
     }
-    
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //viewModel.refreshUser()
         progressDialog.show(this.requireContext())
         user.profile.observe(this, {
             updateProfileHeader()
         })
 
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.profile_fragment, container, false)
 
     }
 
@@ -49,41 +55,23 @@ class ProfileFragment : Fragment() {
         configureLogoutButton()
 
         tv_profile.setOnClickListener {
-            Toast.makeText(requireContext(), "Not available now", Toast.LENGTH_SHORT).show()
-        }
-        editProfile.setOnClickListener {
-            showEditProfileFragment()
+            startActivity(Intent(context, EditProfileActivity::class.java))
         }
 
         tv_message.setOnClickListener {
-            Toast.makeText(requireContext(), "Not available now", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, HomeScreenActivity::class.java))
         }
-
+        back_button.setOnClickListener {
+            activity?.onBackPressed()
+        }
 
     }
 
     override fun onResume() {
+        progressDialog.dismiss(requireContext())
         super.onResume()
     }
 
-    private fun showEditProfileFragment() {
-
-        startActivity(Intent(context, EditProfileActivity::class.java))
-        /*ifConnected {
-            startActivity(Intent(context, EditProfileActivity::class.java))
-        }*/
-    }
-
-    private fun showSettingsFragment() {
-        //loadCurrentTab(SettingsFragment())
-    }
-
-    private fun showMessageCenterFragment() {
-
-        /*ifConnected {
-            loadCurrentTab(MessageCenterFragment.newInstance())
-        }*/
-    }
 
     private fun updateProfileHeader() {
         val user = user.profile.value ?: return
@@ -93,11 +81,9 @@ class ProfileFragment : Fragment() {
         } else {
             avatarImageView.setImageResource(R.drawable.ic_avatar_placeholder)
         }
-        val sharedPreference:SharedPreference=SharedPreference(requireContext())
 
-
-        ownersName.text = sharedPreference.getStringValue("fullName")
-        ownersEmails.text = sharedPreference.getStringValue("email")
+        ownersName.text = user.firstLastName
+        ownersEmails.text = user.email
         progressDialog.dismiss(this.requireActivity())
     }
 

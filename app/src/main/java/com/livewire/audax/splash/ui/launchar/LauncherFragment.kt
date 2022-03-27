@@ -1,28 +1,25 @@
 package com.livewire.audax.splash.ui.launchar
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import com.livewire.audax.R
 import com.livewire.audax.authentication.activity.LoginActivity
-import com.livewire.audax.authentication.ui.login.LoginFragment
 import com.livewire.audax.authentication.ui.login.LoginViewModel
-import com.livewire.audax.dashboard.DashboardActivity
+import com.livewire.audax.homescreen.HomeScreenActivity
 import com.livewire.audax.profile.ProfileActivity
 import com.livewire.audax.store.SharedPreference
 import com.livewire.audax.utils.CustomDialog
-import kotlinx.android.synthetic.main.login_fragment.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class LauncherFragment : Fragment() {
 
     private val viewModel: LoginViewModel by sharedViewModel()
     private val progressDialog = CustomDialog()
+
     companion object {
         fun newInstance() = LauncherFragment()
     }
@@ -45,7 +42,7 @@ class LauncherFragment : Fragment() {
         password = sharedPreference.getStringValue("Password").toString()
             if (email.isEmpty()){
                 activity?.let{
-                    val intent = Intent (it, ProfileActivity::class.java)
+                    val intent = Intent (it, LoginActivity::class.java)
                     it.startActivity(intent)
                     progressDialog.dismiss(this.requireActivity())
                 }
@@ -65,7 +62,7 @@ class LauncherFragment : Fragment() {
                 // Do nothing; handled by authentication events, same as CreateAccountFragment
                 is LoginViewModel.LoginResult.Success -> {
                     activity?.let{
-                        val intent = Intent (it, ProfileActivity::class.java)
+                        val intent = Intent (it, HomeScreenActivity::class.java)
                         it.startActivity(intent)
                         progressDialog.dismiss(this.requireActivity())
                     }

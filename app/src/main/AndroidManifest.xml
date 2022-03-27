@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:extractNativeLibs="true"
-        android:name="com.livewire.audax.App"
+        android:name=".App"
         android:allowBackup="true"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -17,33 +17,36 @@
         android:theme="@style/Theme"
         tools:replace="android:icon,android:theme">
         <activity
-            android:name="com.livewire.audax.splash.LauncherActivity"
-            android:exported="true" >
+            android:name=".splash.LauncherActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".profile.ui.ChangePasswordActivity"
+            android:exported="false"/>
         <activity
-            android:name="com.livewire.audax.profile.ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name="com.livewire.audax.profile.EditProfileActivity"
+            android:name=".profile.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name="com.livewire.audax.authentication.ResetPasswordActivity"
+            android:name=".authentication.activity.ResetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name="com.livewire.audax.authentication.activity.LoginActivity"
+            android:name=".authentication.activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.livewire.audax.dashboard.DashboardActivity"
+            android:name=".homescreen.HomeScreenActivity"
             android:exported="false" />
         <activity
-            android:name="com.livewire.audax.authentication.activity.SignupActivity"
+            android:name=".authentication.activity.SignupActivity"
             android:exported="true" />
         <activity
-            android:name="com.livewire.audax.ui.main.view.MainActivity"
+            android:name=".ui.main.view.MainActivity"
             android:exported="true" />
     </application>
 

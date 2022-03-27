@@ -12,6 +12,7 @@ import com.gigya.android.sdk.api.GigyaApiResponse
 import com.gigya.android.sdk.network.GigyaError
 import com.gigya.android.sdk.network.adapter.RestAdapter
 import com.gigya.android.sdk.session.SessionInfo
+import com.google.gson.Gson
 import com.livewire.audax.R
 import com.livewire.audax.authentication.GigyaManager
 import com.livewire.audax.model.User
@@ -22,6 +23,7 @@ import com.livewire.audax.utils.NetworkHelper
 import com.squareup.moshi.Moshi
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import kotlin.concurrent.thread
 
@@ -130,9 +132,13 @@ open class GigyaApi(val context: Context,
 
     fun createAccount(user: User, password: String, success: (AuthenticationResult) -> Unit, failure: (Int) -> Unit) {
         println(success)
+        val profile = mutableMapOf(Pair("firstName", user.firstName),
+            Pair("lastName", user.lastName))
 
+        val str = Gson().toJson(profile).toString()
         initAccountRegistration({ regToken ->
             val params = gigyaProfileParamsFromUserModel(user, true)
+            params["profile"] = str
             params["email"] = user.email
             params["password"] = password
             params["regToken"] = regToken
@@ -169,7 +175,7 @@ open class GigyaApi(val context: Context,
 
     private fun gigyaProfileParamsFromUserModel(user: User, fromCreate: Boolean, locale: String? = null): MutableMap<String, Any> {
         if (fromCreate) {
-            val profile = Profile().apply {
+            var profile = Profile().apply {
                 this.firstName = user.firstName
                 this.lastName = user.lastName
             }
@@ -183,7 +189,7 @@ open class GigyaApi(val context: Context,
             return mutableMapOf("profile" to profileAdapter.toJson(profile))
         }
         else {
-            val profile = Profile().apply {
+            var profile = Profile().apply {
                 this.firstName = user.firstName
                 this.lastName = user.lastName
             }
@@ -231,7 +237,7 @@ open class GigyaApi(val context: Context,
         callGigya(Method.CREATE_ACCOUNT, params, {
             print(params)
             val result = extractAuthenticationResult(it)
-
+            println(result)
             // Extra fields not returned by create account response
             result.user.middleName = user.middleName
             result.user.emailOptIn = user.emailOptIn
@@ -247,6 +253,7 @@ open class GigyaApi(val context: Context,
 
         callGigya(Method.VERIFY_EMAIL, params, {
             Log.i(TAG, "Request verification email success")
+
         }, {
             Log.e(TAG, "Request verification email failed: $it")
         })
@@ -427,7 +434,13 @@ open class GigyaApi(val context: Context,
         val secret = response.getString("sessionInfo.sessionSecret")
         val user = extractUserFromResponse(response)
 
-        Gigya.getInstance().setSession(SessionInfo(secret, token))
+        try {
+            Gigya.getInstance().setSession(SessionInfo(secret, token))
+        }catch (exception :Exception){
+            exception.message
+            println(exception.message)
+        }
+
 
         return AuthenticationResult(user, token, secret)
     }
@@ -458,8 +471,6 @@ open class GigyaApi(val context: Context,
                 hogMemberID = data?.hogMember?.memberID ?: "",
                 emailOptIn = data?.optIn?.emailSelectedLW ?: false,
                 bikesOwned = data?.bikesOwned
-
-
         )
 
         storage.writeToCache(USER_DIR, USER_FILE, user)

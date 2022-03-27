@@ -10,6 +10,8 @@ class ProfileViewModel (private val dataSource: AccountDataSource,
 ): ViewModel() {
     // TODO: Implement the ViewModel
 
+
+
     fun logout() {
         dataSource.logout()
         httpAll.cache?.evictAll()

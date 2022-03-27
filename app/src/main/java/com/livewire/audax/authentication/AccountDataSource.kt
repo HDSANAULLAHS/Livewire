@@ -41,10 +41,14 @@ open class AccountDataSource(val api: UserAccountApi,
     fun login(email: String, password: String, success: () -> Unit, failure: (Int) -> Unit, changePasswordRequired: (String) -> Unit) {
         // Helper to wrap login and continue
         fun tryLogin(failed: (Int) -> Unit = failure) {
-            gigyaApi.login(email, password, { continueAuthentication(it, success, failure) }, failed, changePasswordRequired)
+            gigyaApi.login(email, password, {
+                continueAuthentication(it, success, failure) }, failed, changePasswordRequired)
+        }
+        tryLogin{
+            failure(GigyaApi.Method.LOGIN.genericError)
         }
 
-        failure(GigyaApi.Method.LOGIN.genericError)
+
 
     }
 
@@ -53,14 +57,26 @@ open class AccountDataSource(val api: UserAccountApi,
         fun tryLogin(failed: (Int) -> Unit = failure) {
             gigyaApi.checkPassword(email, password, { success() }, { failed(it) })
         }
+        tryLogin{
+            failure(R.string.login_failed)
+        }
 
-        failure(R.string.login_failed)
     }
 
     private fun continueAuthentication(auth: GigyaApi.AuthenticationResult, success: () -> Unit, failure: (Int) -> Unit) {
+
         val body = SessionTokenRequestBody(auth.user.uID, auth.token, auth.secret)
 
-        api.requestSessionToken(body).call({
+        tokens.set("", auth.token, auth.secret)
+            user.setIsLoggedIn(true)
+            setUser(auth.user, true)
+            local.updateGigyaGlobalizationProperties{
+                success()
+
+            }
+
+        //}
+        /*api.requestSessionToken(body).call({
             if (it.jwt == null) {
                 failure(GigyaApi.Method.LOGIN.genericError)
                 return@call
@@ -70,12 +86,11 @@ open class AccountDataSource(val api: UserAccountApi,
             user.setIsLoggedIn(true)
             setUser(auth.user, true)
 
-             local.updateGigyaGlobalizationProperties {
                 success()
-            }
+
         }, {
             failure(GigyaApi.Method.LOGIN.genericError)
-        })
+        })*/
     }
 
     fun logout() {
@@ -99,8 +114,10 @@ open class AccountDataSource(val api: UserAccountApi,
         fun tryReset(failed: (Int) -> Unit = failure) {
             gigyaApi.resetPassword(email, success, { failed(it) })
         }
+        tryReset {
+            failure(GigyaApi.Method.RESET_PASSWORD.genericError)
+        }
 
-        failure(GigyaApi.Method.RESET_PASSWORD.genericError)
     }
 
     fun updatePassword(currentPassword: String, newPassword: String, success: () -> Unit, failure: (Int) -> Unit) {
@@ -116,9 +133,31 @@ open class AccountDataSource(val api: UserAccountApi,
         gigyaApi.removePicture(success, failure)
     }
 
+    fun refreshProfileIfStale() {
+        if (tokens.isUserLoggedIn) {
+            val now = System.currentTimeMillis()
 
+            if (now - lastProfileRefresh > 60_000L) {
+                lastProfileRefresh = now
+                refreshProfile()
+            }
+        }
+    }
+    fun refreshProfile() {
+        if (tokens.isUserLoggedIn) {
+            refreshGigyaProfile()
+        }
+    }
 
+    fun changePasswordForced(currentPassword: String, newPassword: String, success: () -> Unit, failure: (Int) -> Unit) {
+        gigyaApi.changePasswordForced(tokens.gigyaToken.toString(), currentPassword, newPassword, {
+            continueAuthentication(it, {
+                user.passwordResetCompleted.value = true
 
+                success()
+            }, { failure(GigyaApi.Method.FINALIZE_ACCOUNT.genericError) })
+        }, failure)
+    }
 
     private fun refreshGigyaProfile() {
         gigyaApi.refreshProfile({

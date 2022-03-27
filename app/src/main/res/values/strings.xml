@@ -1,22 +1,71 @@
 <resources>
     <string name="app_name">Livewire</string>
 
-    <string name="game_view_content_description">Game view</string>
+    //start login string
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="please_login_to_continue">Please login to continue.</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="email_required">Email Required</string>
+    <string name="et_password">Password*</string>
+    <string name="et_email">Email*</string>
     <string name="account_exists">An account with that email address already exists</string>
     <string name="underage_user">You must be at least 13 years old to create an account with LiveWire.</string>
     <string name="old_password">You\'ve entered an old password. Please try again with your current password.</string>
     <string name="invalid_user_password">The login email or password is invalid</string>
     <string name="account_locked">Your account is temporarily locked. Please try again in 10 minutes.</string>
-
     <string name="login_failed">Something went wrong while logging you in. Please check your email, password and internet connection and then try again.</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
+    // end login string
+
+    //Start signup string
+
+    <string name="et_last_name">Last Name</string>
+    <string name="et_first_name">First Name</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="first_name_required">First Name Required</string>
+    <string name="last_name_required">Last Name Required</string>
     <string name="create_account_failed">There was an error with your registration.</string>
     <string name="update_account_failed">Unable to update profile.</string>
     <string name="communication_error">Communication error with server. Check your internet connection.</string>
     <string name="cant_upload_picture">Unable to upload photo. Check internet connection and try again.</string>
     <string name="cant_find_user_create_account_instead">Sorry, we can’t find anyone with that username.</string>
+    <string name="missing_email">Please enter an email address</string>
+    <string name="invalid_email">Email address is not valid</string>
+    <string name="missing_password">Please enter a password</string>
+    <string name="password_length">Password should be longer than 8 characters</string>
+    <string name="password_special_char">Password should have at least one special character</string>
+    <string name="password_digit">Password should have at least one number</string>
+    <string name="password_upper_letter">Password should have at least one uppercase letter</string>
+    <string name="password_lower_letter">Password should have at least one lowercase letter</string>
+    <string name="confirm_password_missing">Please enter password confirmation</string>
+    <string name="passwords_dont_match">The passwords do not match</string>
+    <string name="first_name_missing">Please enter first name</string>
+    <string name="last_name_missing">Please enter last name</string>
+    <string name="sign_in">Sign In</string>
+    <string name="terms_and_privacy_policy"> terms and privacy policy</string>
+    <string name="by_signing_up">By signing up I agree that I am thirteen year old and above and also agree to the <u>terms and privacy policy</u> </string>
+    <string name="password_must_contain">Password must contain</string>
+    <string name="password_place_holder">Password*</string>
+    <string name="password_field_title">Password*</string>
+    <string name="characters_long">8+ characters long</string>
+    <string name="requirements_not_met">Requirements not met</string>
+    <string name="one_number">1 number</string>
+    <string name="new_password">New Password*</string>
+    <string name="at_least_one_number">1 Number</string>
+    <string name="at_least_one_special_character">1 Special Character</string>
+    <string name="one_uppercase_letter">1 Uppercase Letter</string>
+    <string name="one_lowercase_letter">1 Lowercase Letter</string>
+    //end signup
+
+
+
+    <string name="game_view_content_description">Game view</string>
 
     <string name="language_english_usa">English (USA)</string>
     <string name="region_usa">United States</string>
+
+
 
 
     <string name="region_poland">Poland</string>
@@ -45,53 +94,27 @@
 
     <string name="imperial">IMPERIAL_US</string>
     <string name="metric">METRIC(0)</string>
-    <string name="et_password">Password*</string>
-    <string name="et_email">Email*</string>
-    <string name="et_last_name">Last Name</string>
-    <string name="et_first_name">First Name</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="sign_in">Sign In</string>
-    <string name="terms_and_privacy_policy"> terms and privacy policy</string>
-    <string name="by_signing_up">By signing up I agree that I am thirteen year old and above and also agree to the <u>terms and privacy policy</u> </string>
-    <string name="password_must_contain">Password must contain</string>
+
+
+
 
     <string name="required_update">Required Update</string>
     <string name="update_message">To continue using the \nLiveWire<small><sup>\u00AE</sup></small> App, \nplease update to the latest version. Or, you can close the app and update later.</string>
-    <string name="missing_email">Please enter an email address</string>
-    <string name="invalid_email">Email address is not valid</string>
-    <string name="missing_password">Please enter a password</string>
-    <string name="password_length">Password should be longer than 8 characters</string>
-    <string name="password_special_char">Password should have at least one special character</string>
-    <string name="password_digit">Password should have at least one number</string>
-    <string name="password_upper_letter">Password should have at least one uppercase letter</string>
-    <string name="password_lower_letter">Password should have at least one lowercase letter</string>
-    <string name="confirm_password_missing">Please enter password confirmation</string>
-    <string name="passwords_dont_match">The passwords do not match</string>
-    <string name="first_name_missing">Please enter first name</string>
-    <string name="last_name_missing">Please enter last name</string>
-    <string name="welcome_back">Welcome Back!</string>
-    <string name="please_login_to_continue">Please login to continue.</string>
-    <string name="forgot_password">Forgot Password?</string>
-
-    <string name="password_place_holder">Password*</string>
-    <string name="password_field_title">Password*</string>
-    <string name="characters_long">8+ characters long</string>
-    <string name="requirements_not_met">Requirements not met</string>
-    <string name="one_number">1 number</string>
-    <string name="new_password">New Password*</string>
-
-    <string name="at_least_one_number">1 Number</string>
-    <string name="at_least_one_special_character">1 Special Character</string>
-    <string name="one_uppercase_letter">1 Uppercase Letter</string>
-    <string name="one_lowercase_letter">1 Lowercase Letter</string>
     <string name="check_mail">Check Your Mail!</string>
     <string name="reset_password_link">We have sent you an email with a reset password link on your email address.</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="sorry_we_can_t_find_anyone_with_the_username">Sorry, we can\'t find anyone with the username</string>
     <string name="submit">Submit</string>
-    <string name="login">Login</string>
+
     <string name="cant_remove_picture">"Can't remove picture "</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="profile">Profile</string>
+    <string name="please_eneter_your_registered_email_to_receive_a_reset_password_link">Please enter your registered email to receive a reset password link.</string>
+    <string name="logout">Logout</string>
+    <string name="owner_s_name">Owner\'s Name</string>
+    <string name="save">Save</string>
+    <string name="sign_up_message">User is registered successfully. Please visit your mail box and validate your email to login</string>
+    <string name="go_to_signin">Go to Sign In</string>
+
 
 </resources>

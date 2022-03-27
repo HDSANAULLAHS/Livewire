@@ -38,11 +38,11 @@ class SignupFragment : Fragment() {
 
         btnCreateAccount.setOnClickListener {
             if (editFName.text.toString().isEmpty()) {
-                editFName.error ="First name required"
+                editFName.error= R.string.first_name_required.toString()
             }else if (editLName.text.toString().isEmpty()){
-                editLName.error ="Last name required"
+                editLName.error = R.string.last_name_required.toString()
             }else if (editEmail.text.toString().isEmpty()){
-                editEmail.error ="Email required"
+                editEmail.error = R.string.email_required.toString()
             }else{
                 createAccount()
             }
@@ -126,8 +126,8 @@ class SignupFragment : Fragment() {
     }
     fun signupToast(){
         val dialog = AlertDialog.Builder(requireContext())
-        dialog.setMessage("User is registered successfully. Please visit your mail box and validate your email to login")
-            .setPositiveButton("Go to SignIn"){ DialogInterface, which ->
+        dialog.setMessage(getString(R.string.sign_up_message))
+            .setPositiveButton(getString(R.string.go_to_signin)){ DialogInterface, which ->
                 activity?.let{
                     val intent = Intent (it, LoginActivity::class.java)
                     it.startActivity(intent)

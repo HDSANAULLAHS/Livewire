@@ -12,7 +12,7 @@ open class UserViewModel(private val session: SessionTokenStore) : ViewModel() {
     private val _isLoggedIn = MutableLiveData<Boolean>()
     private val _profile = MutableLiveData<User>()
     val authenticated = SingleLiveEvent<Boolean>()
-
+    val passwordResetCompleted = SingleLiveEvent<Boolean>()
     init {
         _isLoggedIn.value = session.isUserLoggedIn
     }

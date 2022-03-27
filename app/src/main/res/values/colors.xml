@@ -24,6 +24,9 @@
     <color name="l_blue">#c7cdd3</color>
     <color name="grey">#515151</color>
     <color name="d_blue">#12283d</color>
+    <color name="profile_top">#254059</color>
+    <color name="profile_bottom">#254059</color>
+    <color name="bg_bottom">#F7F7F7</color>
 
     <color name="dialogBackground">#60000000</color>
 </resources>

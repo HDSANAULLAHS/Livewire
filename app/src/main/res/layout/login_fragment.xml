@@ -115,9 +115,9 @@
             android:layout_below="@+id/rl_password"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
+            android:alpha=".5"
             android:fontFamily="@font/roboto"
             android:text="@string/forgot_password"
-            android:alpha=".5"
             android:textColor="@color/et_bg_tint"
             android:textSize="@dimen/size_12" />
 
@@ -142,7 +142,7 @@
             android:alpha=".5"
             android:fontFamily="@font/roboto"
             android:gravity="center"
-            android:text="Don't have an account? Sign up"
+            android:text="@string/don_t_have_an_account_sign_up"
             android:textAlignment="center"
             android:textColor="@color/et_bg_tint"
             android:textSize="@dimen/size_12"

@@ -3,22 +3,317 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".dashboard.DashboardActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".homescreen.HomeScreenActivity">
+<LinearLayout
+    android:weightSum="3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ImageView
+    <RelativeLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginTop="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:textSize="@dimen/size_16"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:text="Welcome to Livewire"
+            <TextView
+                android:id="@+id/txt_bike_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/trois_mille_22"
+                android:text="Night Rider"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_24" />
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/txt_bike_name"
+                android:background="@drawable/drop_down_arrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_user_profile"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="center"
+                android:src="@drawable/user_small" />
+
+            <TextView
+                android:id="@+id/txtMessageCount"
+                android:layout_width="@dimen/size_12"
+                android:layout_height="@dimen/size_12"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/shape_black_indicator"
+                android:text="3"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="8sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_user_profile"
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24">
+
+            <TextView
+                android:id="@+id/txt_charge_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/trois_mille_22"
+                android:text="97%"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_24" />
+
+            <TextView
+                android:layout_marginTop="@dimen/size_20"
+                android:drawableStart="@drawable/weather_sun"
+                android:id="@+id/txt_temperature"
+                android:drawablePadding="@dimen/size_20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="72°F"
+                android:textColor="@color/black"
+                android:textSize="@dimen/et_14" />
+
+            <TextView
+                android:id="@+id/txt_charge_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_temperature"
+                android:layout_marginTop="@dimen/dp_5"
+                android:fontFamily="@font/roboto_mono_regular"
+                android:text="CHARGE LEVEL"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+                android:layout_marginTop="@dimen/size_12"
+                android:id="@+id/txt_wind_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_temperature"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/roboto_mono_regular"
+                android:text="WIND:4MPH"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+
+                android:id="@+id/txt_range_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_wind_level"
+                android:layout_marginTop="@dimen/size_20"
+                android:fontFamily="@font/trois_mille_22"
+                android:text="120 MILES"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_20" />
+
+            <TextView
+                android:id="@+id/txt_available_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_range_available"
+                android:text="Available Range"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_12" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:weightSum="5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_weight="4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <FrameLayout
+                android:id="@+id/fl_3d_bike"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:layout_marginRight="@dimen/size_40"
+                    android:layout_gravity="end"
+                    android:id="@+id/ib_full_view"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/txt_wind_level"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/full_view" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:weightSum="5"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <ImageButton
+                android:background="@color/white"
+                android:src="@drawable/honk_horn"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageButton
+                android:background="@drawable/flash"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageButton
+                android:background="@color/white"
+                android:src="@drawable/charge"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageButton
+                android:src="@drawable/navigation"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageButton
+                android:src="@drawable/more"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="4"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:background="@color/bg_bottom"
+            android:paddingHorizontal="@dimen/size_24"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/arrow_right_black"
+                android:fontFamily="@font/aeonik_regular"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/size_24"
+                android:text="AR Manual"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_18" />
+        </RelativeLayout>
+        <View
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:background="@color/bg_bottom"
+            android:paddingHorizontal="@dimen/size_24"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/arrow_right_black"
+                android:fontFamily="@font/aeonik_regular"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/size_24"
+                android:text="Diagnostics"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_18" />
+        </RelativeLayout>
+        <View
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:background="@color/bg_bottom"
+            android:paddingHorizontal="@dimen/size_24"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/arrow_right_black"
+                android:fontFamily="@font/aeonik_regular"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/size_24"
+                android:text="Maintenance"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_18" />
+        </RelativeLayout>
+        <View
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:background="@color/bg_bottom"
+            android:paddingHorizontal="@dimen/size_24"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:alpha=".5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableEnd="@drawable/arrow_right_black"
+                android:fontFamily="@font/aeonik_regular"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/size_24"
+                android:text="Schedule"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_18" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
